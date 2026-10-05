@@ -66,21 +66,46 @@ docker-compose up -d
 
 ## Service URLs
 
-| Service | Address |
-|---|---|
-| Frontend | http://localhost:3000 |
-| API Gateway | http://localhost:8080 |
-| Keycloak Admin | http://localhost:8180 |
-| Kafka UI | http://localhost:8090 |
-| Jaeger UI | http://localhost:16686 |
-| Prometheus | http://localhost:9090 |
-| Grafana | http://localhost:3001 |
+| Service | Address | Swagger / Docs |
+|---|---|---|
+| Frontend | http://localhost:3000 | - |
+| API Gateway | http://localhost:8080 | - |
+| Product Service | http://localhost:8081 | http://localhost:8081/swagger-ui/index.html |
+| Order Service | http://localhost:8082 | http://localhost:8082/swagger-ui/index.html |
+| Payment Service | http://localhost:8083 | http://localhost:8083/swagger-ui/index.html |
+| Keycloak Admin | http://localhost:8180 | - |
+| Kafka UI | http://localhost:8090 | - |
+| Jaeger UI (Tracing) | http://localhost:16686 | - |
+| Prometheus | http://localhost:9090 | - |
+| Grafana (Dashboards) | http://localhost:3001 | - |
 
 ## Demo Credentials
 
 - **Keycloak & Grafana Admin:** `admin` / `admin`
 - **ShopFlow Admin (App):** `admin@shopflow.com` (username: `admin`) / `admin123`
 - **ShopFlow Customer (App):** `customer@shopflow.com` (username: `customer`) / `customer123`
+
+## Running Tests
+
+To run the unit tests across services using Maven:
+
+```bash
+# Product Service tests
+cd product-service && mvn test
+
+# Order Service tests
+cd order-service && mvn test
+
+# Payment Service tests
+cd payment-service && mvn test
+```
+
+## CI/CD Pipeline
+
+The project includes a GitHub Actions workflow (`.github/workflows/ci.yml`) running on push and PR to `main`:
+- Automated build & unit testing for all microservices (Java 21, Maven)
+- TypeScript verification & Next.js production build check
+- Docker Compose configuration linting & validation
 
 ## Kafka Events
 
