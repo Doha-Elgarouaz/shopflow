@@ -1,0 +1,64 @@
+{
+  "realm": "shopflow",
+  "enabled": true,
+  "displayName": "ShopFlow",
+  "displayNameHtml": "<b>ShopFlow</b>",
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 900,
+  "roles": {
+    "realm": [
+      { "name": "ROLE_ADMIN", "description": "Administrator role" },
+      { "name": "ROLE_CUSTOMER", "description": "Customer role" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "shopflow-frontend",
+      "name": "ShopFlow Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["http://localhost:3000/*"],
+      "webOrigins": ["http://localhost:3000"],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    },
+    {
+      "clientId": "shopflow-backend",
+      "name": "ShopFlow Backend",
+      "enabled": true,
+      "publicClient": false,
+      "bearerOnly": true
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@shopflow.com",
+      "firstName": "Admin",
+      "lastName": "ShopFlow",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{ "type": "password", "value": "admin123", "temporary": false }],
+      "realmRoles": ["ROLE_ADMIN"]
+    },
+    {
+      "username": "customer",
+      "email": "customer@shopflow.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{ "type": "password", "value": "customer123", "temporary": false }],
+      "realmRoles": ["ROLE_CUSTOMER"]
+    }
+  ]
+}
