@@ -79,7 +79,7 @@ jobs:
 
   # ─── Notification Service ──────────────────────────────────────
   notification-service:
-    name: Notification Service — Build
+    name: Notification Service — Build & Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -95,12 +95,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build
-        run: mvn clean package -DskipTests --no-transfer-progress
+      - name: Build & Test
+        run: mvn clean verify -DskipTests=false --no-transfer-progress
 
   # ─── Stock Service ─────────────────────────────────────────────
   stock-service:
-    name: Stock Service — Build
+    name: Stock Service — Build & Test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -116,8 +116,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build
-        run: mvn clean package -DskipTests --no-transfer-progress
+      - name: Build & Test
+        run: mvn clean verify -DskipTests=false --no-transfer-progress
 
   # ─── API Gateway ───────────────────────────────────────────────
   api-gateway:

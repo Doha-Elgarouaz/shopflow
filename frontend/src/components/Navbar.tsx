@@ -32,6 +32,11 @@ export default function Navbar() {
                 My Orders
               </Link>
             )}
+            {session?.user?.email?.toLowerCase().includes('admin') && (
+              <Link href="/admin" className="text-purple-600 hover:text-purple-800 font-bold transition-colors flex items-center gap-1 bg-purple-50 px-2.5 py-1 rounded-lg">
+                🛡️ Admin
+              </Link>
+            )}
           </div>
 
           {/* Right side */}
@@ -91,6 +96,11 @@ export default function Navbar() {
             {session && (
               <Link href="/orders" className="block px-2 py-2 text-gray-700 hover:text-blue-600 font-medium">
                 My Orders
+              </Link>
+            )}
+            {session?.user?.email?.toLowerCase().includes('admin') && (
+              <Link href="/admin" className="block px-2 py-2 text-purple-700 font-bold hover:text-purple-900">
+                🛡️ Admin Dashboard
               </Link>
             )}
           </div>

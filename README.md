@@ -55,20 +55,32 @@ ShopFlow is a robust, event-driven e-commerce platform built with Spring Boot, S
 
 ## Getting Started
 
-1. Clone the repository to your local machine.
-2. Start the entire infrastructure using Docker Compose:
-
+### Option A: One-click scripts (Recommended)
 ```bash
-docker-compose up -d
+# On Windows (PowerShell)
+.\start.ps1
+
+# On Linux / macOS / Git Bash
+chmod +x start.sh && ./start.sh
 ```
 
-3. Wait for all services to initialize. Keycloak, Kafka, and the Spring Boot applications may take a minute or two to be fully ready.
+### Option B: Manual Docker Compose
+```bash
+# 1. Copy frontend environment configuration
+cp frontend/.env.local.example frontend/.env.local
+
+# 2. Build and launch all containers
+docker compose up -d --build
+```
+
+Wait a minute or two for Keycloak, Kafka, and Spring Boot to complete initialization.
 
 ## Service URLs
 
 | Service | Address | Swagger / Docs |
 |---|---|---|
-| Frontend | http://localhost:3000 | - |
+| Frontend (Store) | http://localhost:3000 | - |
+| Frontend (Admin Panel) | http://localhost:3000/admin | - |
 | API Gateway | http://localhost:8080 | - |
 | Product Service | http://localhost:8081 | http://localhost:8081/swagger-ui/index.html |
 | Order Service | http://localhost:8082 | http://localhost:8082/swagger-ui/index.html |
@@ -77,12 +89,12 @@ docker-compose up -d
 | Kafka UI | http://localhost:8090 | - |
 | Jaeger UI (Tracing) | http://localhost:16686 | - |
 | Prometheus | http://localhost:9090 | - |
-| Grafana (Dashboards) | http://localhost:3001 | - |
+| Grafana (Dashboards) | http://localhost:3001 | Pre-loaded dashboard: `ShopFlow — Overview` |
 
 ## Demo Credentials
 
 - **Keycloak & Grafana Admin:** `admin` / `admin`
-- **ShopFlow Admin (App):** `admin@shopflow.com` (username: `admin`) / `admin123`
+- **ShopFlow Admin (App):** `admin@shopflow.com` (username: `admin`) / `admin123` (Access to `/admin` panel & management endpoints)
 - **ShopFlow Customer (App):** `customer@shopflow.com` (username: `customer`) / `customer123`
 
 ## Running Tests
@@ -90,14 +102,12 @@ docker-compose up -d
 To run the unit tests across services using Maven:
 
 ```bash
-# Product Service tests
+# Run unit tests on individual services
 cd product-service && mvn test
-
-# Order Service tests
 cd order-service && mvn test
-
-# Payment Service tests
 cd payment-service && mvn test
+cd stock-service && mvn test
+cd notification-service && mvn test
 ```
 
 ## CI/CD Pipeline
