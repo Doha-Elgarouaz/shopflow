@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: shopflow
+
+resources:
+  - 00-namespace.yaml
+  - 01-configmaps-secrets.yaml
+  - infra/postgres-databases.yaml
+  - infra/redis.yaml
+  - infra/kafka.yaml
+  - infra/keycloak.yaml
+  - infra/observability.yaml
+  - apps/api-gateway.yaml
+  - apps/product-service.yaml
+  - apps/order-service.yaml
+  - apps/stock-service.yaml
+  - apps/payment-service.yaml
+  - apps/notification-service.yaml
+  - apps/frontend.yaml
+  - ingress.yaml
+  - hpa.yaml

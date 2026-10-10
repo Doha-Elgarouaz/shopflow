@@ -41,6 +41,7 @@ ShopFlow is a robust, event-driven e-commerce platform built with Spring Boot, S
 | Framework | Spring Boot 3.3.x, Spring Cloud 2023.x, Next.js |
 | Persistence | PostgreSQL 16, Redis 7.2 |
 | Messaging | Apache Kafka 7.6.1 |
+| Orchestration | Kubernetes (Kustomize, HPA, Ingress), Docker Compose |
 | Security | Keycloak (OAuth2 / OIDC) |
 | Tracing | OpenTelemetry, Jaeger |
 | Monitoring | Prometheus, Grafana |
@@ -49,6 +50,7 @@ ShopFlow is a robust, event-driven e-commerce platform built with Spring Boot, S
 ## Prerequisites
 
 - Docker and Docker Compose
+- Kubernetes (Docker Desktop with K8s enabled, Minikube, or Kind - *optional for K8s deployment*)
 - Java 21 (for local dev)
 - Maven 3.9+ (for local dev)
 - Node.js 20+ (for frontend)
@@ -74,6 +76,53 @@ docker compose up -d --build
 ```
 
 Wait a minute or two for Keycloak, Kafka, and Spring Boot to complete initialization.
+
+## Kubernetes Deployment (Production & Local)
+
+ShopFlow includes declarative, production-ready Kubernetes manifests orchestrated with **Kustomize** in the `k8s/` directory.
+
+### Quick Deployment
+
+Deploy the entire cluster (microservices, databases, Kafka, Redis, Ingress, HPA) in a single command:
+
+```bash
+# Automated deployment script (PowerShell)
+.\deploy-k8s.ps1
+
+# Automated deployment script (Bash)
+chmod +x deploy-k8s.sh && ./deploy-k8s.sh
+
+# Or directly with kubectl / Kustomize:
+kubectl apply -k ./k8s
+```
+
+### Accessing Services with Port-Forwarding
+
+```bash
+# Frontend Web App
+kubectl port-forward svc/frontend 3000:3000 -n shopflow
+
+# Spring Cloud API Gateway
+kubectl port-forward svc/api-gateway 8080:8080 -n shopflow
+
+# Keycloak IAM
+kubectl port-forward svc/keycloak 8180:8080 -n shopflow
+
+# Observability (Grafana & Jaeger)
+kubectl port-forward svc/grafana 3001:3000 -n shopflow
+kubectl port-forward svc/jaeger 16686:16686 -n shopflow
+
+# Kafka UI
+kubectl port-forward svc/kafka-ui 8090:8080 -n shopflow
+```
+
+### Horizontal Pod Autoscaling (HPA)
+
+Verify dynamic auto-scaling rules based on CPU utilization:
+
+```bash
+kubectl get hpa -n shopflow
+```
 
 ## Service URLs
 
